@@ -1,0 +1,16 @@
+{
+  "data": [
+    {
+      "name": "Tom Cruise",
+      "email": "sadon@gmail.com",
+      "phone": "685321",
+      "id": 2
+    },
+    {
+      "name": "Zano Code",
+      "email": "asa@gmail.com",
+      "phone": "56782",
+      "id": 3
+    }
+  ]
+}

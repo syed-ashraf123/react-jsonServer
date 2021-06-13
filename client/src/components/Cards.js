@@ -1,39 +1,28 @@
+import React from "react";
+import { useState, useEffect } from "react";
 import Card from "./Card";
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-
 function Cards() {
   const [value, setValue] = useState([]);
-
   useEffect(() => {
-    let isActive = true;
-    const fetchData = async () => {
-      const response = await fetch("http://localhost:8000/data");
-      const res = await response.json();
-      if (isActive) setValue(res);
+    const url = "http://localhost:4000/data";
+    const fetching = async () => {
+      const res = await fetch(url);
+      const response = await res.json();
+      setValue(response);
     };
-    fetchData();
-    return () => {
-      isActive = false;
-    };
+    fetching();
   }, []);
   return (
     <div>
-      <div className="App">
-        <button>
-          <Link to={{ pathname: "/create" }}>Create</Link>
-        </button>
-        <hr />
-        {value.map((x) => (
-          <Card
-            id={x.id}
-            name={x.name}
-            phone={x.phone}
-            email={x.email}
-            key={x.id}
-          />
-        ))}
-      </div>
+      {value.map((val) => (
+        <Card
+          key={val.id}
+          name={val.name}
+          phone={val.phone}
+          email={val.email}
+          id={val.id}
+        />
+      ))}
     </div>
   );
 }

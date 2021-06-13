@@ -1,77 +1,41 @@
-import React, { useState } from "react";
+import React from "react";
+import { useState } from "react";
 import { Redirect } from "react-router-dom";
-
 function Update(data) {
-  const [name, setName] = useState(
-    data.location.state ? data.location.state.name : ""
-  );
-  const [phone, setPhone] = useState(
-    data.location.state ? data.location.state.phone : ""
-  );
-  const [email, setEmail] = useState(
-    data.location.state ? data.location.state.email : ""
-  );
+  const [name, setName] = useState(data.location.state.name);
+  const [email, setEmail] = useState(data.location.state.email);
+  const [phone, setPhone] = useState(data.location.state.phone);
+  const [id, setId] = useState(data.location.state.id);
   const [redirect, setRedirect] = useState(false);
-  if (!data.location.state) return <Redirect to="/" />;
-
   const update = async () => {
+    const url = "http://localhost:4000/data/" + id;
     const body = {
       name: name,
-      phone: phone,
       email: email,
+      phone: phone,
     };
-    await fetch("http://localhost:8000/data/" + data.location.state.id, {
-      method: "PUT",
+    await fetch(url, {
       body: JSON.stringify(body),
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
     });
     setRedirect(true);
   };
-
   if (redirect) return <Redirect to="/" />;
-
   return (
     <div>
-      <div>
-        <b>Name</b> :
-        <i>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </i>
-        <br />
-        <b>Phone</b> :
-        <i>
-          <input
-            type="text"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-          />
-        </i>
-        <br />
-        <b>Email</b> :
-        <i>
-          <input
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </i>
-        <br />
-        <button
-          onClick={(e) => {
-            update(e);
-          }}
-        >
-          Update
-        </button>
-        <button>Delete</button>
-        <hr />
-      </div>
+      <b>Name</b>:
+      <input value={name} onChange={(e) => setName(e.target.value)} />
+      <br />
+      <b>Phone</b>:
+      <input value={phone} onChange={(e) => setPhone(e.target.value)} />
+      <br />
+      <b>Email</b>:
+      <input value={email} onChange={(e) => setEmail(e.target.value)} />
+      <br />
+      <button onClick={() => update()}>Update</button>
     </div>
   );
 }
