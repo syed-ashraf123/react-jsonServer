@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 function Card({ name, phone, email, id }) {
+  const [redirect, setRedirect] = useState(false);
   const deleteId = async (id) => {
     await fetch(`http://localhost:8000/data/${id}`, {
       method: "DELETE",
     });
-    return <Redirect to="/" />;
+    setRedirect(true);
   };
+  if (redirect) return <Redirect to="/" />;
   return (
     <div>
       <b>Name</b> : <i>{name}</i>

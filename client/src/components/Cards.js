@@ -16,7 +16,7 @@ function Cards() {
     return () => {
       isActive = false;
     };
-  }, [value]);
+  }, []);
   return (
     <div>
       <div className="App">
